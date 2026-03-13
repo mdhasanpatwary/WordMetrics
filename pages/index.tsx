@@ -12,6 +12,11 @@ export default function Home() {
   const charCount = text.length;
   const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
   const lineCount = text === '' ? 0 : text.split('\n').length;
+  
+  // Reading time calculation (200 wpm)
+  const totalSeconds = (wordCount / 200) * 60;
+  const readingTimeMin = Math.floor(totalSeconds / 60);
+  const readingTimeSec = Math.floor(totalSeconds % 60);
 
   // Dark mode initialization - syncing with document class
   useEffect(() => {
@@ -237,6 +242,10 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Lines</span>
             <span className="text-3xl font-black">{lineCount}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Reading Time</span>
+            <span className="text-3xl font-black">{readingTimeMin}m {readingTimeSec}s</span>
           </div>
         </section>
 
