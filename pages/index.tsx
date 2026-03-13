@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { Copy, Trash2, Moon, Sun } from 'lucide-react';
+import { Copy, Trash2, Moon, Sun, Check } from 'lucide-react';
 
 export default function Home() {
   const [text, setText] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showCopySuccess, setShowCopySuccess] = useState(false);
 
   // Stats calculation
   const charCount = text.length;
@@ -15,7 +16,7 @@ export default function Home() {
   const lineCount = text === '' ? 0 : text.split('\n').length;
   const sentenceCount = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
   const paragraphCount = text.trim() === '' ? 0 : text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
-  
+
   // Reading time calculation (200 wpm)
   const totalSeconds = (wordCount / 200) * 60;
   const readingTimeMin = Math.floor(totalSeconds / 60);
@@ -48,6 +49,8 @@ export default function Home() {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
+      setShowCopySuccess(true);
+      setTimeout(() => setShowCopySuccess(false), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -164,11 +167,11 @@ export default function Home() {
         {/* Header: Centered title with theme toggle absolute positioned */}
         <header className="relative mb-16 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Image 
-              src="/logo.png" 
-              alt="WordMetrics Precision Logo" 
-              width={40} 
-              height={40} 
+            <Image
+              src="/logo.png"
+              alt="WordMetrics Precision Logo"
+              width={40}
+              height={40}
               className="w-8 h-8 sm:w-10 sm:h-10"
               priority
             />
@@ -184,18 +187,6 @@ export default function Home() {
             {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />}
           </button>
         </header>
-
-        {/* Text Area: Full width, height ~200px on desktop, auto-resize mobile */}
-        <section className="w-full mb-8" aria-labelledby="editor-heading">
-          <h2 id="editor-heading" className="sr-only">Text Editor</h2>
-          <textarea
-            className="w-full min-h-[200px] md:h-64 p-6 text-xl md:text-2xl bg-transparent border-2 border-[#111111] dark:border-white focus:outline-none placeholder:text-[#111111]/30 dark:placeholder:text-white/30 leading-relaxed font-medium"
-            placeholder="START TYPING..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            aria-label="Text to count"
-          />
-        </section>
 
         {/* Case Converter Controls */}
         <section className="flex flex-wrap gap-2 mb-8" aria-label="Case converter">
@@ -243,6 +234,43 @@ export default function Home() {
           </button>
         </section>
 
+        {/* Text Area: Full width, height ~200px on desktop, auto-resize mobile */}
+        <section className="w-full mb-8" aria-labelledby="editor-heading">
+          <h2 id="editor-heading" className="sr-only">Text Editor</h2>
+          <textarea
+            className="w-full min-h-[200px] md:h-64 p-6 text-xl md:text-2xl bg-transparent border-2 border-[#111111] dark:border-white focus:outline-none placeholder:text-[#111111]/30 dark:placeholder:text-white/30 leading-relaxed font-medium"
+            placeholder="START TYPING..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            aria-label="Text to count"
+          />
+        </section>
+
+        {/* Action Buttons: Moved above stats grid for better UX */}
+        <nav className="flex flex-wrap justify-end gap-4 mb-12" aria-label="Editor actions">
+          <button
+            onClick={copyToClipboard}
+            disabled={!text}
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest transition-all disabled:opacity-20 disabled:cursor-not-allowed ${showCopySuccess
+              ? 'bg-green-600 text-white dark:bg-green-500'
+              : 'bg-[#111111] text-white dark:bg-white dark:text-[#111111] hover:opacity-90 active:scale-[0.98]'
+              }`}
+            aria-label={showCopySuccess ? "Text copied" : "Copy text to clipboard"}
+          >
+            {showCopySuccess ? <Check className="w-4 h-4" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
+            {showCopySuccess ? 'Copied!' : 'Copy'}
+          </button>
+          <button
+            onClick={clearText}
+            disabled={!text}
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 border-2 border-[#111111] dark:border-white font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all  disabled:opacity-20 disabled:cursor-not-allowed"
+            aria-label="Clear text editor"
+          >
+            <Trash2 className="w-4 h-4" aria-hidden="true" />
+            Clear
+          </button>
+        </nav>
+
         {/* Stats Panel: Responsive Grid */}
         <section className="mb-10 border-b-2 border-[#111111]/10 dark:border-white/10 pb-10" aria-labelledby="stats-heading">
           <h2 id="stats-heading" className="text-xs font-black uppercase tracking-[0.4em] opacity-30 mb-6">Text Statistics</h2>
@@ -278,27 +306,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Action Buttons: Sharp edges, horizontal alignment */}
-        <nav className="flex flex-col sm:flex-row gap-4 mb-20" aria-label="Editor actions">
-          <button
-            onClick={copyToClipboard}
-            disabled={!text}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 bg-[#111111] text-white dark:bg-white dark:text-[#111111] font-bold uppercase tracking-widest hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-            aria-label="Copy text to clipboard"
-          >
-            <Copy className="w-4 h-4" aria-hidden="true" />
-            Copy
-          </button>
-          <button
-            onClick={clearText}
-            disabled={!text}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 border-2 border-[#111111] dark:border-white font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all  disabled:opacity-20 disabled:cursor-not-allowed"
-            aria-label="Clear text editor"
-          >
-            <Trash2 className="w-4 h-4" aria-hidden="true" />
-            Clear
-          </button>
-        </nav>
+        {/* Action Buttons: Sharp edges, horizontal alignment - REMOVED from here, moved up */}
 
         {/* GEO/AEO Content Section: Rich context for AI and Search Engines */}
         <article className="prose dark:prose-invert max-w-none border-t-2 border-[#111111]/5 dark:border-white/5 pt-16">
