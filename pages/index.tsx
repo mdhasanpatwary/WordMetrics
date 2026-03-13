@@ -100,7 +100,7 @@ export default function Home() {
 
   return (
 
-    <div className="min-h-screen font-sans selection:bg-[#111111] selection:text-white dark:selection:bg-white dark:selection:text-[#111111]">
+    <div className="h-screen flex flex-col font-sans selection:bg-[#111111] selection:text-white dark:selection:bg-white dark:selection:text-[#111111] bg-white dark:bg-[#111111] overflow-hidden">
       <Head>
         {/* SEO: Basic Meta Tags */}
         <title>WordMetrics – Minimal Word Counter</title>
@@ -161,194 +161,182 @@ export default function Home() {
         />
       </Head>
 
-      {/* Main Container: Centered, max width, responsive padding */}
-      <main className="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col min-h-screen">
-
-        {/* Header: Centered title with theme toggle absolute positioned */}
-        <header className="relative mb-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Image
-              src="/logo.png"
-              alt="WordMetrics Precision Logo"
-              width={40}
-              height={40}
-              className="w-8 h-8 sm:w-10 sm:h-10"
-              priority
-            />
-            <h1 className="text-2xl md:text-4xl font-black tracking-tighter uppercase italic">
-              <span className="opacity-50">Word</span>Metrics
-            </h1>
-          </div>
-          <button
-            onClick={toggleDarkMode}
-            className="p-3 border border-[#111111] dark:border-white hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-colors"
-            aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
-            {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />}
-          </button>
-        </header>
-
-        {/* Case Converter Controls */}
-        <section className="flex flex-wrap gap-2 mb-8" aria-label="Case converter">
-          <button
-            onClick={convertToUpperCase}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            UPPERCASE
-          </button>
-          <button
-            onClick={convertToLowerCase}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            lowercase
-          </button>
-          <button
-            onClick={convertToTitleCase}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            Title Case
-          </button>
-          <button
-            onClick={convertToSentenceCase}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            Sentence case
-          </button>
-          <button
-            onClick={convertToCapitalized}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            Capitalize Words
-          </button>
-          <button
-            onClick={removeExtraSpaces}
-            disabled={!text}
-            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            Remove Extra Spaces
-          </button>
-        </section>
-
-        {/* Text Area: Full width, height ~200px on desktop, auto-resize mobile */}
-        <section className="w-full mb-8" aria-labelledby="editor-heading">
-          <h2 id="editor-heading" className="sr-only">Text Editor</h2>
-          <textarea
-            className="w-full min-h-[200px] md:h-64 p-6 text-xl md:text-2xl bg-transparent border-2 border-[#111111] dark:border-white focus:outline-none placeholder:text-[#111111]/30 dark:placeholder:text-white/30 leading-relaxed font-medium"
-            placeholder="START TYPING..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            aria-label="Text to count"
+      {/* Header: Compact, fixed height (~56px) */}
+      <header className="h-14 border-b border-[#111111]/10 dark:border-white/10 flex items-center justify-between px-6 shrink-0">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/logo.png"
+            alt="WordMetrics Precision Logo"
+            width={28}
+            height={28}
+            priority
           />
-        </section>
+          <h1 className="text-xl font-black tracking-tighter uppercase italic">
+            <span className="opacity-50">Word</span>Metrics
+          </h1>
+        </div>
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 border border-[#111111] dark:border-white hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-colors rounded-none"
+          aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
+      </header>
 
-        {/* Action Buttons: Moved above stats grid for better UX */}
-        <nav className="flex flex-wrap justify-end gap-4 mb-12" aria-label="Editor actions">
-          <button
-            onClick={copyToClipboard}
-            disabled={!text}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 font-bold uppercase tracking-widest transition-all disabled:opacity-20 disabled:cursor-not-allowed ${showCopySuccess
-              ? 'bg-green-600 text-white dark:bg-green-500'
-              : 'bg-[#111111] text-white dark:bg-white dark:text-[#111111] hover:opacity-90 active:scale-[0.98]'
-              }`}
-            aria-label={showCopySuccess ? "Text copied" : "Copy text to clipboard"}
-          >
-            {showCopySuccess ? <Check className="w-4 h-4" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
-            {showCopySuccess ? 'Copied!' : 'Copy'}
-          </button>
-          <button
-            onClick={clearText}
-            disabled={!text}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-10 py-4 border-2 border-[#111111] dark:border-white font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all  disabled:opacity-20 disabled:cursor-not-allowed"
-            aria-label="Clear text editor"
-          >
-            <Trash2 className="w-4 h-4" aria-hidden="true" />
-            Clear
-          </button>
-        </nav>
+      {/* Main Layout: 2 Columns on Desktop */}
+      <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
 
-        {/* Stats Panel: Responsive Grid */}
-        <section className="mb-10 border-b-2 border-[#111111]/10 dark:border-white/10 pb-10" aria-labelledby="stats-heading">
-          <h2 id="stats-heading" className="text-xs font-black uppercase tracking-[0.4em] opacity-30 mb-6">Text Statistics</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Words</span>
-              <span className="text-3xl font-black">{wordCount}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Characters</span>
-              <span className="text-3xl font-black">{charCount}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Char (No Space)</span>
-              <span className="text-3xl font-black">{charCountNoSpaces}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Lines</span>
-              <span className="text-3xl font-black">{lineCount}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Sentences</span>
-              <span className="text-3xl font-black">{sentenceCount}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Paragraphs</span>
-              <span className="text-3xl font-black">{paragraphCount}</span>
-            </div>
-            <div className="p-6 border border-[#111111]/10 dark:border-white/10 md:col-span-2 flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Reading Time</span>
-              <span className="text-3xl font-black">{readingTimeMin}m {readingTimeSec}s</span>
-            </div>
+        {/* Left Column: Text Input (70%) */}
+        <section className="w-full md:w-[70%] flex flex-col p-4 md:p-6 border-b md:border-b-0 md:border-r border-[#111111]/10 dark:border-white/10 overflow-hidden shrink-0">
+          <div className="flex-1 flex flex-col">
+            <textarea
+              className="flex-1 w-full p-6 text-lg md:text-xl bg-transparent border-2 border-[#111111] dark:border-white focus:outline-none placeholder:text-[#111111]/30 dark:placeholder:text-white/30 leading-relaxed font-medium rounded-none resize-none"
+              placeholder="START TYPING..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              aria-label="Text to count"
+            />
+          </div>
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={copyToClipboard}
+              disabled={!text}
+              className={`flex-1 text-[10px] sm:text-[12px] flex items-center justify-center gap-2 py-3 font-bold uppercase tracking-widest transition-all rounded-none disabled:opacity-20 disabled:cursor-not-allowed ${showCopySuccess
+                ? 'bg-green-600 text-white dark:bg-green-500'
+                : 'bg-[#111111] text-white dark:bg-white dark:text-[#111111] hover:opacity-90'
+                }`}
+              aria-label={showCopySuccess ? "Text copied" : "Copy text to clipboard"}
+            >
+              {showCopySuccess ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              {showCopySuccess ? 'Copied!' : 'Copy Content'}
+            </button>
+            <button
+              onClick={clearText}
+              disabled={!text}
+              className="flex-1 text-[10px] sm:text-[12px] flex items-center justify-center gap-2 py-3 border-2 border-[#111111] dark:border-white font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all rounded-none disabled:opacity-20 disabled:cursor-not-allowed"
+              aria-label="Clear text editor"
+            >
+              <Trash2 className="w-4 h-4" />
+              Clear Editor
+            </button>
           </div>
         </section>
 
-        {/* Action Buttons: Sharp edges, horizontal alignment - REMOVED from here, moved up */}
+        {/* Right Column: Tools Panel (30%) - Scrollable */}
+        <section className="w-full md:w-[30%] flex flex-col overflow-y-auto bg-[#f9f9f9]/50 dark:bg-black/20">
+          <div className="p-6 space-y-8">
 
-        {/* GEO/AEO Content Section: Rich context for AI and Search Engines */}
-        <article className="prose dark:prose-invert max-w-none border-t-2 border-[#111111]/5 dark:border-white/5 pt-16">
-          <section className="mb-12">
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-6 italic underline decoration-4 underline-offset-8">Information & Use Cases</h2>
-            <div className="grid md:grid-cols-2 gap-8 opacity-80 text-sm md:text-base leading-relaxed">
-              <p>
-                <strong>WordMetrics</strong> is a dedicated tool for authors, bloggers, and content creators who require precise text analysis. Whether you are drafting a tweet, a professional email, or a long-form article, our tool ensures your content fits perfectly within your target constraints.
-              </p>
-              <ul className="list-disc pl-5 space-y-2 font-medium">
-                <li>Professional copy editing and character counting</li>
-                <li>Length verification for social media posts</li>
-                <li>SEO meta-description and title tag optimization</li>
-                <li>Academic essay word count tracking</li>
-              </ul>
-            </div>
-          </section>
-
-          <section aria-labelledby="faq-heading">
-            <h2 id="faq-heading" className="text-xl md:text-2xl font-black uppercase tracking-tight mb-8 italic underline decoration-4 underline-offset-8">Common Questions (FAQ)</h2>
-            <div className="space-y-8">
-              <div>
-                <h3 className="font-bold text-lg mb-2">How to count words online?</h3>
-                <p className="opacity-70">To count words online, simply copy your text and paste it into the WordMetrics editor. The stats update instantly as you type or paste, showing words, characters, and line counts.</p>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">What is a word counter?</h3>
-                <p className="opacity-70">A word counter is a digital tool that analyzes a string of text to provide quantitative metrics. WordMetrics uses precision algorithms to distinguish between words, whitespace, and special characters.</p>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">Is WordMetrics free to use?</h3>
-                <p className="opacity-70">Yes, WordMetrics is a free, web-based tool. It does not require registration and does not store your private text data on our servers, ensuring maximum privacy for your writing.</p>
+            {/* 1. Quick Statistics */}
+            <div aria-labelledby="section-quick-stats">
+              <h2 id="section-quick-stats" className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-4">1. Quick Statistics</h2>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: 'Words', value: wordCount },
+                  { label: 'Characters', value: charCount },
+                  { label: 'Char (No Space)', value: charCountNoSpaces },
+                  { label: 'Lines', value: lineCount },
+                ].map((stat) => (
+                  <div key={stat.label} className="p-4 border border-[#111111]/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col gap-1">
+                    <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">{stat.label}</span>
+                    <span className="text-xl font-black">{stat.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </section>
-        </article>
 
-        {/* Footer: Small centered text */}
-        <footer className="mt-auto pt-24 pb-8 text-center text-[10px] font-bold uppercase tracking-[0.3em] opacity-30">
-          <p>© {new Date().getFullYear()} WordMetrics // Built with Precision</p>
-          <p className="mt-2 text-[8px]">Optimized for Human Readers and Generative AI Agents</p>
-        </footer>
+            {/* 2. Case Converter */}
+            <div aria-labelledby="section-case-converter">
+              <h2 id="section-case-converter" className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-4">2. Case Converter</h2>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: 'UPPERCASE', action: convertToUpperCase },
+                  { label: 'lowercase', action: convertToLowerCase },
+                  { label: 'Title Case', action: convertToTitleCase },
+                  { label: 'Sentence case', action: convertToSentenceCase },
+                  { label: 'Capitalized', action: convertToCapitalized },
+                ].map((btn) => (
+                  <button
+                    key={btn.label}
+                    onClick={btn.action}
+                    disabled={!text}
+                    className="py-2 border border-[#111111] dark:border-white text-[9px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all rounded-none disabled:opacity-20 disabled:cursor-not-allowed text-center"
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 3. Text Tools */}
+            <div aria-labelledby="section-tools">
+              <h2 id="section-tools" className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-4">3. Text Tools</h2>
+              <button
+                onClick={removeExtraSpaces}
+                disabled={!text}
+                className="w-full py-2 border border-[#111111] dark:border-white text-[9px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all rounded-none disabled:opacity-20 disabled:cursor-not-allowed"
+              >
+                Remove Extra Spaces
+              </button>
+            </div>
+
+            {/* 4. Advanced Statistics */}
+            <div aria-labelledby="section-advanced-stats">
+              <h2 id="section-advanced-stats" className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-4">4. Advanced Statistics</h2>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="p-4 border border-[#111111]/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col gap-1">
+                  <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">Sentences</span>
+                  <span className="text-xl font-black">{sentenceCount}</span>
+                </div>
+                <div className="p-4 border border-[#111111]/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col gap-1">
+                  <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">Paragraphs</span>
+                  <span className="text-xl font-black">{paragraphCount}</span>
+                </div>
+                <div className="col-span-2 p-4 border border-[#111111]/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col gap-1">
+                  <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">Reading Time</span>
+                  <span className="text-xl font-black">{readingTimeMin}m {readingTimeSec}s</span>
+                </div>
+              </div>
+            </div>
+
+            {/* GEO/AEO Content Section: Hidden on mobile tools panel, or just at bottom of scroll */}
+            <article className="prose dark:prose-invert max-w-none border-t border-[#111111]/10 dark:border-white/10 pt-8 opacity-60">
+              <section className="mb-8">
+                <h2 className="text-sm font-black uppercase mb-4">Information</h2>
+                <div className="text-[11px] leading-relaxed space-y-4">
+                  <p>
+                    <strong>WordMetrics</strong> is a dedicated tool for authors and creators.
+                  </p>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li>Copy editing and character counting</li>
+                    <li>Social media verification</li>
+                    <li>SEO optimization</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section aria-labelledby="faq-heading-compact">
+                <h2 id="faq-heading-compact" className="text-sm font-black uppercase mb-4">FAQ</h2>
+                <div className="space-y-4 text-[11px]">
+                  <div>
+                    <h3 className="font-bold mb-1">How to count words?</h3>
+                    <p>Paste text into the WordMetrics editor. Stats update instantly.</p>
+                  </div>
+                  <div>
+                    <h3 className="font-bold mb-1">Is it free?</h3>
+                    <p>Yes, WordMetrics is a free, web-based tool with maximum privacy.</p>
+                  </div>
+                </div>
+              </section>
+            </article>
+
+            {/* Footer */}
+            <footer className="pt-8 pb-4 text-center text-[8px] font-bold uppercase tracking-[0.2em] opacity-30">
+              <p>© {new Date().getFullYear()} WordMetrics</p>
+              <p className="mt-1">Built with Precision</p>
+            </footer>
+          </div>
+        </section>
       </main>
     </div>
   );
