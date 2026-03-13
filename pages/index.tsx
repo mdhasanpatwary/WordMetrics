@@ -13,6 +13,8 @@ export default function Home() {
   const charCountNoSpaces = text.replace(/\s/g, '').length;
   const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
   const lineCount = text === '' ? 0 : text.split('\n').length;
+  const sentenceCount = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+  const paragraphCount = text.trim() === '' ? 0 : text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
   
   // Reading time calculation (200 wpm)
   const totalSeconds = (wordCount / 200) * 60;
@@ -241,28 +243,38 @@ export default function Home() {
           </button>
         </section>
 
-        {/* Stats Panel: Inline on desktop, block on mobile */}
-        <section className="flex flex-col md:flex-row gap-4 md:gap-12 mb-10 border-b-2 border-[#111111]/10 dark:border-white/10 pb-8" aria-labelledby="stats-heading">
-          <h2 id="stats-heading" className="sr-only">Live Statistics</h2>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Words</span>
-            <span className="text-3xl font-black">{wordCount}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Characters</span>
-            <span className="text-3xl font-black">{charCount}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Characters (no spaces)</span>
-            <span className="text-3xl font-black">{charCountNoSpaces}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Lines</span>
-            <span className="text-3xl font-black">{lineCount}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Reading Time</span>
-            <span className="text-3xl font-black">{readingTimeMin}m {readingTimeSec}s</span>
+        {/* Stats Panel: Responsive Grid */}
+        <section className="mb-10 border-b-2 border-[#111111]/10 dark:border-white/10 pb-10" aria-labelledby="stats-heading">
+          <h2 id="stats-heading" className="text-xs font-black uppercase tracking-[0.4em] opacity-30 mb-6">Text Statistics</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Words</span>
+              <span className="text-3xl font-black">{wordCount}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Characters</span>
+              <span className="text-3xl font-black">{charCount}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Char (No Space)</span>
+              <span className="text-3xl font-black">{charCountNoSpaces}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Lines</span>
+              <span className="text-3xl font-black">{lineCount}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Sentences</span>
+              <span className="text-3xl font-black">{sentenceCount}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Paragraphs</span>
+              <span className="text-3xl font-black">{paragraphCount}</span>
+            </div>
+            <div className="p-6 border border-[#111111]/10 dark:border-white/10 md:col-span-2 flex flex-col gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Reading Time</span>
+              <span className="text-3xl font-black">{readingTimeMin}m {readingTimeSec}s</span>
+            </div>
           </div>
         </section>
 
