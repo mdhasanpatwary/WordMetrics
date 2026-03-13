@@ -82,6 +82,11 @@ export default function Home() {
     setText(capitalized);
   };
 
+  const removeExtraSpaces = () => {
+    const cleaned = text.trim().replace(/\s+/g, ' ');
+    setText(cleaned);
+  };
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-white dark:bg-[#111111]" aria-hidden="true" />
@@ -226,6 +231,13 @@ export default function Home() {
             className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
           >
             Capitalize Words
+          </button>
+          <button
+            onClick={removeExtraSpaces}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            Remove Extra Spaces
           </button>
         </section>
 
