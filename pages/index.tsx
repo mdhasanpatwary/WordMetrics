@@ -49,6 +49,33 @@ export default function Home() {
     setText('');
   };
 
+  const convertToUpperCase = () => {
+    setText(text.toUpperCase());
+  };
+
+  const convertToLowerCase = () => {
+    setText(text.toLowerCase());
+  };
+
+  const convertToTitleCase = () => {
+    const titleCased = text.toLowerCase().split(' ').map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+    setText(titleCased);
+  };
+
+  const convertToSentenceCase = () => {
+    const sentenceCased = text.toLowerCase().replace(/(^\w|\.\s*\w)/g, m => m.toUpperCase());
+    setText(sentenceCased);
+  };
+
+  const convertToCapitalized = () => {
+    const capitalized = text.split(' ').map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+    setText(capitalized);
+  };
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-white dark:bg-[#111111]" aria-hidden="true" />
@@ -155,6 +182,45 @@ export default function Home() {
             onChange={(e) => setText(e.target.value)}
             aria-label="Text to count"
           />
+        </section>
+
+        {/* Case Converter Controls */}
+        <section className="flex flex-wrap gap-2 mb-8" aria-label="Case converter">
+          <button
+            onClick={convertToUpperCase}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            UPPERCASE
+          </button>
+          <button
+            onClick={convertToLowerCase}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            lowercase
+          </button>
+          <button
+            onClick={convertToTitleCase}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            Title Case
+          </button>
+          <button
+            onClick={convertToSentenceCase}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            Sentence case
+          </button>
+          <button
+            onClick={convertToCapitalized}
+            disabled={!text}
+            className="px-4 py-2 border border-[#111111] dark:border-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+          >
+            Capitalize Words
+          </button>
         </section>
 
         {/* Stats Panel: Inline on desktop, block on mobile */}
