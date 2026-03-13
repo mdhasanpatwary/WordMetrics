@@ -49,9 +49,14 @@ export default function Home() {
     setText('');
   };
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-[#111111]" aria-hidden="true" />
+    );
+  }
 
   return (
+
     <div className="min-h-screen font-sans selection:bg-[#111111] selection:text-white dark:selection:bg-white dark:selection:text-[#111111]">
       <Head>
         {/* SEO: Basic Meta Tags */}
