@@ -23,25 +23,11 @@ export const reverseText = (text: string): string => {
   return text.split('').reverse().join('');
 };
 
-export const toTitleCase = (text: string): string => {
-  return text.toLowerCase().split(' ').map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(' ');
-};
-
-export const toSentenceCase = (text: string): string => {
-  return text.toLowerCase().replace(/(^\w|\.\s*\w)/g, m => m.toUpperCase());
-};
-
-export const toToggleCase = (text: string): string => {
-  return text.split('').map(char => {
-    if (char === char.toUpperCase()) return char.toLowerCase();
-    return char.toUpperCase();
-  }).join('');
-};
-
-export const capitalizeWords = (text: string): string => {
-  return text.split(' ').map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  }).join(' ');
+export const sanitizeText = (text: string): string => {
+  if (!text) return '';
+  // Basic XSS/HTML removal - using a non-backtracking approach where possible
+  return text
+    .replace(/<[^>]*?>/gm, '') // Use non-greedy match
+    .replace(/&nbsp;/g, ' ')
+    .trim();
 };
