@@ -10,6 +10,7 @@ export default function Home() {
 
   // Stats calculation
   const charCount = text.length;
+  const charCountNoSpaces = text.replace(/\s/g, '').length;
   const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
   const lineCount = text === '' ? 0 : text.split('\n').length;
   
@@ -238,6 +239,10 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Characters</span>
             <span className="text-3xl font-black">{charCount}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Characters (no spaces)</span>
+            <span className="text-3xl font-black">{charCountNoSpaces}</span>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm font-bold uppercase tracking-widest opacity-50 text-[#111111] dark:text-white">Lines</span>
