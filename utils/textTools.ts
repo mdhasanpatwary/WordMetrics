@@ -28,6 +28,5 @@ export const sanitizeText = (text: string): string => {
   // Basic XSS/HTML removal - using a non-backtracking approach where possible
   return text
     .replace(/<[^>]*?>/gm, '') // Use non-greedy match
-    .replace(/&nbsp;/g, ' ')
-    .trim();
+    .replace(/&nbsp;/g, ' ');
 };
